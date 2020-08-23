@@ -10,7 +10,7 @@ from crawler.db import connect_db
 import urllib.request
 from inscriptis import get_text
 from bs4.element import Comment
-
+from datetime import datetime
 
 
 import requests
@@ -110,12 +110,15 @@ def crawl_words():
 
         all_articles = newsapi.get_everything(q=word,
 
-                                              from_param='2020-07-22',
+                                              from_param=datetime.today().date().strftime("%Y-%m-%d"),
 
                                               language='en',
                                               sort_by='relevancy',
                                               page=1,
                                               page_size=100)
+
+        if all_articles['totalResults'] == 0:
+            continue
 
         save_all_articles(all_articles)
 
