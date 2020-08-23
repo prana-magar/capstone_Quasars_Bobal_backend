@@ -92,6 +92,9 @@ def save_all_articles(all_articles):
         temp_dict['web_text'] = web_text
         article_dict_lst.append(temp_dict)
 
+
+    if len(article_dict_lst) == 0:
+        return
     pg_python.insert_multiple('article',['key','source_id','source_name','url_to_image',
                                             'author','title','description','url','publishedat','content','web_text'],
 
