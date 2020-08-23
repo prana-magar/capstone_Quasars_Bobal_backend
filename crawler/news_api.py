@@ -11,12 +11,15 @@ import urllib.request
 from inscriptis import get_text
 from bs4.element import Comment
 from datetime import datetime
+import urllib3
+
 
 
 import requests
 from bs4 import BeautifulSoup
 
-api_key_lst = ['d6b09fbb0c4d449f9d28a868090bd59a','31bbe9fc44634dd2a6a07f998d4ee52a','c74afd2d2a5b4515a912057f35c635b8']
+# api_key_lst = ['d6b09fbb0c4d449f9d28a868090bd59a','31bbe9fc44634dd2a6a07f998d4ee52a','c74afd2d2a5b4515a912057f35c635b8']
+api_key_lst = ['db41554ea8db48e9bd3ed7459ce41e8b', '10d8076dab5d4a78abe16f00effebd29']
 api_token = 'your_api_token'
 api_url_base = 'http://newsapi.org/v2/everything?q=%s&from=2020-07-22&sortBy=publishedAt&apiKey=%s'
 
@@ -31,7 +34,21 @@ def get_web_text(url):
 
     try:
 
-        html = urllib.request.urlopen(url).read().decode('utf-8')
+        hdr = {
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+            'Accept-Encoding': 'none',
+            'Accept-Language': 'en-US,en;q=0.8',
+            'Connection': 'keep-alive'}
+
+
+        req = urllib.request.Request(url)
+        req.add_header(            'User-Agent','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+)
+
+
+        html = urllib.request.urlopen(req).read().decode('utf-8')
         result = get_text(html)
 
         result = re.sub('\n', ' ', result)
