@@ -1,0 +1,1 @@
+create table article( source_id varchar, source_name varchar, author varchar, title varchar, decription varchar, url varchar, url_to_image varchar, publishedAt timestamptz, content varchar, id int, web_text text);

@@ -1,0 +1,17 @@
+<dataConfig>
+  <dataSource type="JdbcDataSource"
+              driver="org.postgresql.Driver"
+              url="jdbc:postgresql://localhost/crawler_db"
+              user="postgres"
+              password="Layer0_123"
+	      />
+        <document>
+        <entity name="key" transformer="RegexTransformer"
+                pk="key"
+    	    query="select key, source_id, source_name, author, title, description, url, url_to_image, publishedat,web_text as web_text from article"
+    	    deltaQuery="select key, source_id, source_name, author, title, description, url, url_to_image, publishedat,web_text from article">
+
+      </entity>
+      </document>
+
+</dataConfig>

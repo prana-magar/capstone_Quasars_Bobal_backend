@@ -1,0 +1,34 @@
+#**
+ *  Render a hit representing a Product
+ *  assumed to have a field called "name"
+ *#
+
+<div class="result-title"><b>#field('name')</b><span class="mlt">   #if($params.getBool('mlt', false) == false)<a href="#lensNoQ&q=id:$docId&mlt=true">More Like This</a>#end</span></div>
+##do we have a physical store for this product
+#set($store = $doc.getFieldValue('store'))
+#if($store)<div class="map"><img src="http://maps.google.com/maps/api/staticmap?&zoom=12&size=150x80&maptype=roadmap&markers=$doc.getFieldValue('store')&sensor=false" /><div><small><a target="_map" href="http://maps.google.com/?q=$store&amp;source=embed">Larger Map</a></small></div></div>#end
+<div>Key: #field('key')</div>
+<div>Processed Title: #field('processed_title')</div>
+<div>Work description: #field('work_description')</div>
+<div>Location: #field('location')</div>
+<div>Keywords: #field('keywords_multivalued')</div>
+<div>Work Title: #field('work_title')</div>
+<div class="mlt">
+  #set($mlt = $mltResults.get($docId))
+  #set($mltOn = $params.getBool('mlt'))
+  #if($mltOn == true)<div class="field-name">Similar Items</div>#end
+  #if ($mltOn && $mlt && $mlt.size() > 0)
+  <ul>
+    #foreach($mltHit in $mlt)
+      #set($mltId = $mltHit.getFieldValue('key'))
+      <li><div><a href="#url_for_home?q=key:$mltId">$mltId</a></div><div><span class="field-name">Processed Title:</span> $mltHit.getFieldValue('processed_title')</div>
+        <div><span class="field-name">Price:</span> $mltHit.getFieldValue('price') <span class="field-name">State:</span> $mltHit.getFieldValue('state')</div>
+
+      </li>
+    #end
+  </ul>
+  #elseif($mltOn && $mlt.size() == 0)
+    <div>No Similar Items Found</div>
+  #end
+</div>
+#parse('debug.vm')
