@@ -3,7 +3,7 @@ import re
 
 import requests
 import random
-from crawler.words_magoosh import magoosh_1000
+from crawler.words_magoosh import magoosh_1000_1, magoosh_1000_2, magoosh_1000_3
 import hashlib
 from pg_python import pg_python
 from crawler.db import connect_db
@@ -26,7 +26,7 @@ api_url_base = 'http://newsapi.org/v2/everything?q=%s&from=2020-07-22&sortBy=pub
 
 from newsapi import NewsApiClient
 
-newsapi = NewsApiClient(api_key=random.choice(api_key_lst))
+newsapi = NewsApiClient(api_key_lst[0])
 
 
 def get_web_text(url):
@@ -126,7 +126,7 @@ def crawl_words():
 
 
     print("crawling words")
-    for word in magoosh_1000:
+    for word in magoosh_1000_1:
         print("crawling for %s" %word)
 
         all_articles = newsapi.get_everything(q=word,
