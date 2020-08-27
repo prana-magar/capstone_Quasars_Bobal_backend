@@ -1,3 +1,4 @@
+import itertools
 import json
 import re
 
@@ -26,7 +27,8 @@ api_url_base = 'http://newsapi.org/v2/everything?q=%s&from=2020-07-22&sortBy=pub
 
 from newsapi import NewsApiClient
 
-newsapi = NewsApiClient(api_key_lst[0])
+
+round_robin = itertools.cycle(api_key_lst)
 
 
 def get_web_text(url):
@@ -128,6 +130,8 @@ def crawl_words():
     print("crawling words")
     for word in magoosh_1000_1:
         print("crawling for %s" %word)
+
+        newsapi = NewsApiClient(random.choice(api_key_lst))
 
         all_articles = newsapi.get_everything(q=word,
 
